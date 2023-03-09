@@ -12,6 +12,8 @@
 
 html {
   min-height: 100vh; /* body fills the viewport */
+  min-height: fill-available; /* body fills the viewport */
+  min-height: -webkit-fill-available;
   display: flex;     /* body fills the viewport */
 }
 
