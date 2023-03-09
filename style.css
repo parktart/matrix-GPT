@@ -96,6 +96,21 @@ h1 {
   align-self: flex-start;
 }
 
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+.footer a {
+  transition: transform 0.3s ease-in-out;
+}
+
+.footer a:hover {
+  transform: rotate(360deg) scale(1.2);
+}
 
 /* CSS text-shadow HOW TO??
 	text-shadow: 3px 3px 1px #bebebe;
