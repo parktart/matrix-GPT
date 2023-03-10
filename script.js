@@ -18,17 +18,28 @@
 // DISPLAY chatInitialResponse in div_arena
 // via typeChatResponse function
 
+function typeChatResponse(chatResponseString) {
+  const chatResponseArray = ['?'];
+
+  for (const char of chatResponseArray) {
+    console.log(char);
+  }
+  
+}
 
 // DISPLAY user input box
 
   /* REPEAT */
 
+// ACTIVATE input field
 // LISTEN for user input (userResponse)
 
 
-// WHEN receive userResponse -> RESET chatResponse = ""
+// WHEN receive userResponse
+// RESET chatResponse = ""
 
 // REMOVE userResponse from input field
+// DEACTIVATE input field
 // DISPLAY userResponse in div_arena
 
 // DISPLAY div_downloading in div_arena
@@ -46,3 +57,21 @@
 // track session tokens
 // track all-time tokens in database
 // display price for each
+
+
+
+const body = document.querySelector('body');
+body.addEventListener('click', logColor);
+
+function logColor(e) {
+  console.log(e.target.style.color);
+}
+
+body.addEventListener('click', function (e) {
+  e.target.style.background = 'blue';
+});
+
+body.addEventListener('click', (e) => {
+  console.log(e);
+  console.dir(e);
+});
