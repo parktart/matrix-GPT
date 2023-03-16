@@ -75,3 +75,23 @@ body.addEventListener('click', (e) => {
   console.log(e);
   console.dir(e);
 });
+
+
+
+
+let chatResponse;
+
+function fetchChatResponse() {
+  fetch('./chatResponse.json', { method: 'GET' })
+  .then(response => response.json())
+  .then(responseData => {
+    console.log(responseData);
+    // chatResponse = responseData.??
+    updateChatResponse();
+  })
+  .catch(error => console.error(error));
+}
+
+function updateChatResponse() {
+  
+}
