@@ -1,0 +1,19 @@
+{
+  "name": "matrix-gpt",
+  "version": "1.0.0",
+  "description": "Goal is to learn about APIs by connecting chatGPT to a webpage!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parktart/matrix-GPT.git"
+  },
+  "author": "Parker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/parktart/matrix-GPT/issues"
+  },
+  "homepage": "https://github.com/parktart/matrix-GPT#readme"
+}
