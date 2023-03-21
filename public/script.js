@@ -2,8 +2,8 @@
 
 const input_userInput = document.querySelector('#user-input');
 const button_submit = document.querySelector('#submit');
-const div_chatResponse = document.querySelector('.chat-response');
 const div_userPrompt = document.querySelector('.user-prompt');
+const div_chatResponse = document.querySelector('.chat-response');
 
 let userPrompt = '';
 let chatResponse = '';
@@ -43,21 +43,24 @@ function typeChatResponse(chatResponseString) {
 button_submit.addEventListener('click', checkForInput);
 
 function checkForInput() {
-  if (input_userInput.value) displayUserPrompt();
+  if (input_userInput.value) {
+    hideChatResponse();
+    displayUserPrompt();
+  }
 }
 
 // WHEN receive userPrompt
-function displayUserPrompt() {
+function hideChatResponse() {
   div_chatResponse.textContent = '';
-  
-  userPrompt = input_userInput.value;
-  div_userPrompt.textContent = userPrompt;
-  input_userInput.value = '';
-  // DEACTIVATE input field / submit button eventListener here
-
-  fetchChatResponse();
 }
 
+function displayUserPrompt() {
+  userPrompt = input_userInput.value;
+  div_userPrompt.textContent = userPrompt; // typewriter
+  input_userInput.value = '';
+  // DEACTIVATE input field / submit button eventListener here
+  fetchChatResponse();
+}
 
 function fetchChatResponse() {
   fetch('/fetchChatResponse', {
@@ -69,15 +72,14 @@ function fetchChatResponse() {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
-    // chatResponse = data.??
-    updateChatResponse();
+    chatResponse = data.text;
+    displayChatResponse();
   })
   .catch(error => console.error(error));
 }
 
-function updateChatResponse() {
-  // div_chatResponse.textContent = 
+function displayChatResponse() {
+  div_chatResponse.textContent = chatResponse;
 }
 
 
