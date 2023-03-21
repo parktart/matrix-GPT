@@ -8,33 +8,20 @@ const div_chatResponse = document.querySelector('.chat-response');
 let userPrompt = '';
 let chatResponse = '';
 
-// SEND INITIAL PROMPT to ChatGPT - prompt with matrix movie plot and user/GPT character roles
-
-// LISTEN for chatInitialResponse
-
 
 // DELAY 1s with blank screen
 
-// DISPLAY div_downloading with infinite css animation
-// WHEN receive chatInitialResponse -> HIDE div_downloading
+// DISPLAY div_downloading with infinite css animation - for 5 seconds
 
+// HIDE div_downloading
 
-// DISPLAY h1 and footer with opacity 0 -> 1 transition
+// DELAY 1s with blank screen
 
+// DISPLAY wakeUp
+typeWrite('Wake up, Neo...', div_chatResponse);
 
-// DISPLAY chatInitialResponse in div_arena
-// via typeChatResponse function
+// DISPLAY everything else with opacity 0 -> 1 transition
 
-function typeChatResponse(chatResponseString) {
-  const chatResponseArray = ['?'];
-
-  for (const char of chatResponseArray) {
-    console.log(char);
-  }
-  
-}
-
-// DISPLAY user input box
 
 
   /* REPEAT */
@@ -51,12 +38,12 @@ function checkForInput() {
 
 // WHEN receive userPrompt
 function hideChatResponse() {
-  div_chatResponse.textContent = '';
+  div_chatResponse.innerHTML = '';
 }
 
 function displayUserPrompt() {
   userPrompt = input_userInput.value;
-  div_userPrompt.textContent = userPrompt; // typewriter
+  typeWrite(userPrompt, div_userPrompt);
   input_userInput.value = '';
   // DEACTIVATE input field / submit button eventListener here
   fetchChatResponse();
@@ -73,14 +60,13 @@ function fetchChatResponse() {
   .then(response => response.json())
   .then(data => {
     chatResponse = data.text;
-    displayChatResponse();
+    // displayChatResponse();
+    typeWrite(chatResponse, div_chatResponse);
   })
   .catch(error => console.error(error));
 }
 
-function displayChatResponse() {
-  div_chatResponse.textContent = chatResponse;
-}
+
 
 
 // DISPLAY div_downloading in div_arena
@@ -120,3 +106,22 @@ body.addEventListener('click', (e) => {
 
 
 
+function typeWrite(string, container) {
+  container.innerHTML = '';
+  const delayInterval = 50; // milliseconds
+  const arr = string.split('');
+  for (let i = 0; i < arr.length; i++) {
+    doSetTimeout(i, arr, delayInterval, container);
+  }
+  const delayTotal = delayInterval * (arr.length - 1);
+  // delay next step until array has fully appeared + 500ms
+  // setTimeout(NEXTFUNCTION, delayTotal + 500);
+}
+
+function doSetTimeout(i, arr, delayInterval, container) {
+  setTimeout(function() {
+    const span = document.createElement('span');
+    span.textContent = arr[i];
+    container.appendChild(span);
+  }, i * delayInterval);
+}
