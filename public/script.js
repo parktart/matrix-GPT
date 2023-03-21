@@ -55,15 +55,22 @@ function displayUserResponse() {
   input_userInput.value = '';
   // DEACTIVATE input field / submit button eventListener here
 
-  // fetchChatResponse();
+  fetchChatResponse();
 }
 
+
 function fetchChatResponse() {
-  fetch('./chatResponse.json', { method: 'GET' })
+  fetch('/fetchChatResponse', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ userResponse })
+  })
   .then(response => response.json())
-  .then(responseData => {
-    console.log(responseData);
-    // chatResponse = responseData.??
+  .then(data => {
+    console.log(data);
+    // chatResponse = data.??
     updateChatResponse();
   })
   .catch(error => console.error(error));
