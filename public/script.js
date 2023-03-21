@@ -4,29 +4,54 @@ const input_userInput = document.querySelector('#user-input');
 const button_submit = document.querySelector('#submit');
 const div_userPrompt = document.querySelector('.user-prompt');
 const div_chatResponse = document.querySelector('.chat-response');
+const div_downloading = document.querySelector('.downloading');
+const div_marginAutoCont = document.querySelector('.margin-auto-container');
+const h1 = document.querySelector('h1');
+const div_arena = document.querySelector('.arena');
+const div_footer = document.querySelector('.footer');
+const div_userInputContainer = document.querySelector('.user-input-container');
 
 let userPrompt = '';
 let chatResponse = '';
 
+// DELAY with blank screen
+h1.classList.add('display-none');
+div_arena.classList.add('display-none');
+div_downloading.classList.add('display-none');
+div_footer.classList.add('display-none');
+setTimeout(displayDownloading, 2000);
 
-// DELAY 1s with blank screen
+function displayDownloading() {
+  div_marginAutoCont.classList.add('justify-center');
+  div_downloading.classList.remove('display-none');
+  setTimeout(hideDownloading, 6000);
+}
 
-// DISPLAY div_downloading with infinite css animation - for 5 seconds
+function hideDownloading() {
+  div_downloading.classList.add('display-none');
+  div_marginAutoCont.classList.remove('justify-center');
+  displayAll();
+  setTimeout(displayWakeUp, 2000);
+}
 
-// HIDE div_downloading
+function displayAll() {
+  h1.classList.remove('display-none');
+  div_arena.classList.remove('display-none');
+  div_footer.classList.remove('display-none');
+}
 
-// DELAY 1s with blank screen
+function displayWakeUp() {
+  typeWrite('Wake up, Neo...', div_chatResponse);
+  setTimeout(appearAll, 2000);
+}
 
-// DISPLAY wakeUp
-typeWrite('Wake up, Neo...', div_chatResponse);
+function appearAll() {
+  h1.classList.add('appear');
+  div_userInputContainer.classList.add('appear');
+  div_footer.classList.add('appear');
+}
 
-// DISPLAY everything else with opacity 0 -> 1 transition
 
-
-
-  /* REPEAT */
-
-// LISTEN for userPrompt
 button_submit.addEventListener('click', checkForInput);
 
 function checkForInput() {
@@ -36,7 +61,6 @@ function checkForInput() {
   }
 }
 
-// WHEN receive userPrompt
 function hideChatResponse() {
   div_chatResponse.innerHTML = '';
 }
@@ -60,50 +84,16 @@ function fetchChatResponse() {
   .then(response => response.json())
   .then(data => {
     chatResponse = data.text;
-    // displayChatResponse();
     typeWrite(chatResponse, div_chatResponse);
   })
   .catch(error => console.error(error));
 }
 
 
-
-
-// DISPLAY div_downloading in div_arena
-// LISTEN for chatResponse
-
-// DISPLAY chatResponse in div_arena
-// via typeChatResponse function
-
-  /* REPEAT */
-
-
-// on the third chatResponse, add "by the way - I can help you with coding topics - just click on a topic below!"
-
-
 // track session tokens
-// track all-time tokens in database
+// track user tokens
+// track all-time tokens
 // display price for each
-
-
-
-const body = document.querySelector('body');
-body.addEventListener('click', logColor);
-
-function logColor(e) {
-  // console.log(e.target.style.color);
-}
-
-body.addEventListener('click', function (e) {
-  // e.target.style.background = 'blue';
-});
-
-body.addEventListener('click', (e) => {
-  // console.log(e);
-  // console.dir(e);
-});
-
-
 
 
 function typeWrite(string, container) {
