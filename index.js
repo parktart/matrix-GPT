@@ -32,11 +32,11 @@ app.post('/initialChatResponse', async (req, res) => {
 
 
 app.post('/fetchChatResponse', async (req, res) => {
-  const userResponse = req.body.userResponse;
+  const userPrompt = req.body.userPrompt;
  
   const response = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: `${userResponse}`,
+    prompt: `${userPrompt}`,
     max_tokens: 10,
     temperature: 0,
   });

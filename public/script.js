@@ -3,9 +3,9 @@
 const input_userInput = document.querySelector('#user-input');
 const button_submit = document.querySelector('#submit');
 const div_chatResponse = document.querySelector('.chat-response');
-const div_userResponse = document.querySelector('.user-response');
+const div_userPrompt = document.querySelector('.user-prompt');
 
-let userResponse = '';
+let userPrompt = '';
 let chatResponse = '';
 
 // SEND INITIAL PROMPT to ChatGPT - prompt with matrix movie plot and user/GPT character roles
@@ -39,19 +39,19 @@ function typeChatResponse(chatResponseString) {
 
   /* REPEAT */
 
-// LISTEN for userResponse
+// LISTEN for userPrompt
 button_submit.addEventListener('click', checkForInput);
 
 function checkForInput() {
-  if (input_userInput.value) displayUserResponse();
+  if (input_userInput.value) displayUserPrompt();
 }
 
-// WHEN receive userResponse
-function displayUserResponse() {
-  div_chatResponse.textContent = 'chat response will go here' || '';
+// WHEN receive userPrompt
+function displayUserPrompt() {
+  div_chatResponse.textContent = '';
   
-  userResponse = input_userInput.value;
-  div_userResponse.textContent = userResponse;
+  userPrompt = input_userInput.value;
+  div_userPrompt.textContent = userPrompt;
   input_userInput.value = '';
   // DEACTIVATE input field / submit button eventListener here
 
@@ -65,7 +65,7 @@ function fetchChatResponse() {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ userResponse })
+    body: JSON.stringify({ userPrompt })
   })
   .then(response => response.json())
   .then(data => {
