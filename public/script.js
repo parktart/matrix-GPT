@@ -64,16 +64,16 @@ const body = document.querySelector('body');
 body.addEventListener('click', logColor);
 
 function logColor(e) {
-  console.log(e.target.style.color);
+  // console.log(e.target.style.color);
 }
 
 body.addEventListener('click', function (e) {
-  e.target.style.background = 'blue';
+  // e.target.style.background = 'blue';
 });
 
 body.addEventListener('click', (e) => {
-  console.log(e);
-  console.dir(e);
+  // console.log(e);
+  // console.dir(e);
 });
 
 
@@ -93,5 +93,5 @@ function fetchChatResponse() {
 }
 
 function updateChatResponse() {
-  
+  // chatResponse.textContent
 }

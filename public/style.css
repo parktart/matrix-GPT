@@ -95,7 +95,26 @@ h1 {
 
 .arena {
   /* border: 2px solid red; */
-  align-self: flex-start;
+  width: 100%;
+  /* align-self: flex-start; */
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.user-input-container {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+#user-input {
+  flex: 1;
+  min-height: 2rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  /* height: fit-content; */
+  background-color: inherit;
 }
 
 .footer {
