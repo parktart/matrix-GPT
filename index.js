@@ -20,29 +20,31 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+
+app.post('/initialChatResponse', async (req, res) => {
+  
+})
+
+
 app.post('/fetchChatResponse', async (req, res) => {
-  console.log(req.body.userResponse);
+  const userResponse = req.body.userResponse;
  
   const response = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: "Say this is a test",
-    max_tokens: 7,
+    prompt: `${userResponse}`,
+    max_tokens: 10,
     temperature: 0,
   });
-
-  console.log(response.data);
-  console.log(response.data.choices[0].text);
 
   if (response.data.choices[0].text) {
     res.json({ text: response.data.choices[0].text });
   }
 })
-
-
 
 
 app.listen(port, () => {
