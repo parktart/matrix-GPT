@@ -102,6 +102,11 @@ h1 {
   gap: 50px;
 }
 
+div.user-prompt,
+div.chat-response {
+  min-height: 18px;
+}
+
 .user-input-container {
   display: flex;
   gap: 12px;
