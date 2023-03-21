@@ -1,5 +1,12 @@
 "use strict";
 
+const input_userInput = document.querySelector('#user-input');
+const button_submit = document.querySelector('#submit');
+const div_chatResponse = document.querySelector('.chat-response');
+const div_userResponse = document.querySelector('.user-response');
+
+let userResponse = '';
+let chatResponse = '';
 
 // SEND INITIAL PROMPT to ChatGPT - prompt with matrix movie plot and user/GPT character roles
 
@@ -29,18 +36,43 @@ function typeChatResponse(chatResponseString) {
 
 // DISPLAY user input box
 
+
   /* REPEAT */
 
-// ACTIVATE input field
-// LISTEN for user input (userResponse)
+// LISTEN for userResponse
+button_submit.addEventListener('click', checkForInput);
 
+function checkForInput() {
+  if (input_userInput.value) displayUserResponse();
+}
 
 // WHEN receive userResponse
-// RESET chatResponse = ""
+function displayUserResponse() {
+  div_chatResponse.textContent = 'chat response will go here' || '';
+  
+  userResponse = input_userInput.value;
+  div_userResponse.textContent = userResponse;
+  input_userInput.value = '';
+  // DEACTIVATE input field / submit button eventListener here
 
-// REMOVE userResponse from input field
-// DEACTIVATE input field
-// DISPLAY userResponse in div_arena
+  // fetchChatResponse();
+}
+
+function fetchChatResponse() {
+  fetch('./chatResponse.json', { method: 'GET' })
+  .then(response => response.json())
+  .then(responseData => {
+    console.log(responseData);
+    // chatResponse = responseData.??
+    updateChatResponse();
+  })
+  .catch(error => console.error(error));
+}
+
+function updateChatResponse() {
+  // div_chatResponse.textContent = 
+}
+
 
 // DISPLAY div_downloading in div_arena
 // LISTEN for chatResponse
@@ -79,19 +111,3 @@ body.addEventListener('click', (e) => {
 
 
 
-let chatResponse;
-
-function fetchChatResponse() {
-  fetch('./chatResponse.json', { method: 'GET' })
-  .then(response => response.json())
-  .then(responseData => {
-    console.log(responseData);
-    // chatResponse = responseData.??
-    updateChatResponse();
-  })
-  .catch(error => console.error(error));
-}
-
-function updateChatResponse() {
-  // chatResponse.textContent
-}
