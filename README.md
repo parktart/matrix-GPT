@@ -9,11 +9,8 @@ All done!
 [LIVE PAGE](https://matrix-gpt-render.onrender.com/)
 
 [Wake Up, Neo scene on YouTube](https://www.youtube.com/watch?v=sjoad6gcRzs)
-
-Keyboard sound from [zapsplat.com](https://www.zapsplat.com/)
-
  <br> 
-
+ 
 ## JSON
 
 JSON - JavaScript Object Notation
@@ -371,7 +368,7 @@ and there are three basic types of modules..
 
 3. Custom modules - created by you - used to store functions, variables, objects, classes, etc - created locally
  <br> 
- to use any of these module types in our main file we would need to import them using..
+to use any of these module types in our main file we would need to import them using..
 
 ```javascript
 const path = require('path'); // path is one of the "core" node modules
