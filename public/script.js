@@ -10,6 +10,7 @@ const h1 = document.querySelector('h1');
 const div_arena = document.querySelector('.arena');
 const div_footer = document.querySelector('.footer');
 const div_userInputContainer = document.querySelector('.user-input-container');
+const audio = document.querySelector('audio');
 
 let userPrompt = '';
 let chatResponse = '';
@@ -113,5 +114,7 @@ function doSetTimeout(i, arr, delayInterval, container) {
     const span = document.createElement('span');
     span.textContent = arr[i];
     container.appendChild(span);
+    audio.currentTime = 0;
+    audio.play();
   }, i * delayInterval);
 }
