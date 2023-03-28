@@ -1,7 +1,6 @@
 "use strict";
 
 const input_userInput = document.querySelector('#user-input');
-const button_submit = document.querySelector('#submit');
 const div_userPrompt = document.querySelector('.user-prompt');
 const div_chatResponse = document.querySelector('.chat-response');
 const div_downloading = document.querySelector('.downloading');
@@ -10,6 +9,7 @@ const h1 = document.querySelector('h1');
 const div_arena = document.querySelector('.arena');
 const div_footer = document.querySelector('.footer');
 const div_userInputContainer = document.querySelector('.user-input-container');
+const div_cursor = document.querySelector('.cursor');
 
 let userPrompt = '';
 let chatResponse = '';
@@ -46,31 +46,48 @@ function displayWakeUp() {
 }
 
 function appearAll() {
-  h1.classList.add('appear');
-  div_userInputContainer.classList.add('appear');
-  div_footer.classList.add('appear');
+  h1.classList.add('opacity1');
+  div_userInputContainer.classList.add('opacity1');
+  div_footer.classList.add('opacity1');
+  input_userInput.focus();
 }
 
+document.addEventListener('click', () => input_userInput.focus());
 
-button_submit.addEventListener('click', checkForInput);
+input_userInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') checkForInput();
+})
 
 function checkForInput() {
   if (input_userInput.value) {
-    hideChatResponse();
+    resetChatResponse();
     displayUserPrompt();
   }
 }
 
-function hideChatResponse() {
+function resetChatResponse() {
   div_chatResponse.innerHTML = '';
 }
 
 function displayUserPrompt() {
   userPrompt = input_userInput.value;
-  typeWrite(userPrompt, div_userPrompt);
+  const typingDelay = typeWrite(userPrompt, div_userPrompt);
+  disableUserInput();
+  resetUserInput();
+  hideCursor();
+  setTimeout(fetchChatResponse, typingDelay);
+}
+
+function disableUserInput() {
+  input_userInput.disabled = true;
+}
+
+function resetUserInput() {
   input_userInput.value = '';
-  // DEACTIVATE input field / submit button eventListener here
-  fetchChatResponse();
+}
+
+function hideCursor() {
+  div_cursor.style.background = 'transparent';
 }
 
 function fetchChatResponse() {
@@ -84,18 +101,31 @@ function fetchChatResponse() {
   .then(response => response.json())
   .then(data => {
     chatResponse = data.text;
-    typeWrite(chatResponse, div_chatResponse);
+    const typingDelay = typeWrite(chatResponse, div_chatResponse);
+    setTimeout(allowInput, typingDelay);
   })
   .catch(error => console.error(error));
 }
 
+function allowInput() {
+  resizeInput.call(input_userInput);
+  div_cursor.style.background = 'lightgreen';
+  input_userInput.disabled = false;
+  input_userInput.focus();
+}
 
-// track session tokens
-// track user tokens
-// track all-time tokens
-// display price for each
+
+/* continually resize userInput width to match its content */
+input_userInput.addEventListener('input', resizeInput);
+
+function resizeInput() {
+  this.style.width = this.value.length + "ch";
+}
+
+resizeInput.call(input_userInput);
 
 
+/* typewriter function */
 function typeWrite(string, container) {
   container.innerHTML = '';
   const delayInterval = 50; // milliseconds
@@ -104,8 +134,7 @@ function typeWrite(string, container) {
     doSetTimeout(i, arr, delayInterval, container);
   }
   const delayTotal = delayInterval * (arr.length - 1);
-  // delay next step until array has fully appeared + 500ms
-  // setTimeout(NEXTFUNCTION, delayTotal + 500);
+  return delayTotal;
 }
 
 function doSetTimeout(i, arr, delayInterval, container) {
@@ -115,3 +144,9 @@ function doSetTimeout(i, arr, delayInterval, container) {
     container.appendChild(span);
   }, i * delayInterval);
 }
+
+
+// track session tokens
+// track user tokens
+// track all-time tokens
+// display price for each

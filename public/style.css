@@ -109,21 +109,46 @@ div.chat-response {
 
 .user-input-container {
   display: flex;
-  gap: 12px;
-  align-items: flex-end;
+  /* gap: 12px; */
+  align-items: center;
   margin-top: auto;
   margin-bottom: 20vh;
 }
 
 #user-input {
-  flex: 1;
+  /* flex: 1; */
   min-height: 2rem;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  /* height: fit-content; */
+  /* padding: 0.5rem; */
+  /* border-radius: 0.5rem; */
   background-color: inherit;
+  caret-color: transparent;
+  border: none;
+  text-shadow: inherit;
 }
 
+#user-input:focus {
+  outline: none;
+}
+
+.cursor {
+  width: 0.6rem;
+  height: 1.2rem;
+  background-color: lightgreen;
+  -webkit-animation: blink 1s step-end infinite;
+  animation: blink 1s step-end infinite;
+}
+
+@-webkit-keyframes blink {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@keyframes blink {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
 
 .downloading {
   width: 200px;
@@ -186,9 +211,9 @@ h1,
   transition: opacity 2s ease;
 }
 
-h1.appear,
-.user-input-container.appear,
-.footer.appear {
+h1.opacity1,
+.user-input-container.opacity1,
+.footer.opacity1 {
   opacity: 1;
 }
 
