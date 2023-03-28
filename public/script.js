@@ -60,9 +60,14 @@ input_userInput.addEventListener('keydown', (e) => {
 
 function checkForInput() {
   if (input_userInput.value) {
+    removeKeyboardFocus();
     resetChatResponse();
     displayUserPrompt();
   }
+}
+
+function removeKeyboardFocus() {
+  input_userInput.blur();
 }
 
 function resetChatResponse() {
