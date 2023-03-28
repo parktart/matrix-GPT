@@ -57,7 +57,7 @@ document.addEventListener('click', () => input_userInput.focus());
 input_userInput.addEventListener('focus', () => setTimeout(scroll2view, 50)); // wait for keyboard before scrolling 
 
 function scroll2view() {
-  input_userInput.scrollIntoView(false);
+  input_userInput.scrollIntoView({behavior: "smooth"});
 }
 
 input_userInput.addEventListener('keydown', (e) => {
