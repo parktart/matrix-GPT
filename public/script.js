@@ -54,7 +54,11 @@ function appearAll() {
 
 document.addEventListener('click', () => input_userInput.focus());
 
-input_userInput.addEventListener('focus', () => input_userInput.scrollIntoView());
+input_userInput.addEventListener('focus', () => setTimeout(scroll2view, 50)); // wait for keyboard before scrolling 
+
+function scroll2view() {
+  input_userInput.scrollIntoView(false);
+}
 
 input_userInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') checkForInput();
