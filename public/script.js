@@ -54,6 +54,8 @@ function appearAll() {
 
 document.addEventListener('click', () => input_userInput.focus());
 
+input_userInput.addEventListener('focus', () => input_userInput.scrollIntoView());
+
 input_userInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') checkForInput();
 })
