@@ -11,10 +11,9 @@ const port = process.env.PORT || 3000;
 
 const configuration = new Configuration({
   organization: "org-6UEpBXTdNqSHr0axideMycn8",
-  apiKey: process.env.OPENAI_API_KEY, // UNCOMMENT BEFORE PUSHING TO GITHUB
+  apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
-// const response = await openai.listEngines();
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -24,11 +23,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
-
-app.post('/initialChatResponse', async (req, res) => {
-  
-})
 
 
 app.post('/fetchChatResponse', async (req, res) => {
@@ -60,4 +54,3 @@ app.post('/fetchChatResponse', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}...`)
 });
-
