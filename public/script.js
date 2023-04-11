@@ -96,7 +96,7 @@ function resetUserInput() {
 }
 
 function hideCursor() {
-  div_cursor.style.background = 'transparent';
+  div_cursor.classList.add('hidden');
 }
 
 function fetchChatResponse(userPrompt) {
@@ -118,7 +118,7 @@ function fetchChatResponse(userPrompt) {
 
 function allowInput() {
   resizeInput.call(input_userInput);
-  div_cursor.style.background = 'lightgreen';
+  div_cursor.classList.remove('hidden');
   input_userInput.disabled = false;
   input_userInput.focus();
 }

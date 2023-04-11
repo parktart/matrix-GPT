@@ -139,6 +139,11 @@ div.chat-response {
   box-shadow: 0px 0px 1px 1px lightgreen;
 }
 
+.cursor.hidden {
+  background-color: transparent;
+  box-shadow: none;
+}
+
 @-webkit-keyframes blink {
   0% { opacity: 1.0; }
   50% { opacity: 0.0; }
