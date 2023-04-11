@@ -163,6 +163,10 @@ div.chat-response {
   border-radius: 2px;
   box-shadow: 0px 0px 1px 1px lightgreen;
   position: relative;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .downloading::before {
