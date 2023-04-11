@@ -11,8 +11,6 @@ const div_footer = document.querySelector('.footer');
 const div_userInputContainer = document.querySelector('.user-input-container');
 const div_cursor = document.querySelector('.cursor');
 
-let userPrompt = '';
-let chatResponse = '';
 
 // DELAY with blank screen
 h1.classList.add('display-none');
@@ -81,12 +79,12 @@ function resetChatResponse() {
 }
 
 function displayUserPrompt() {
-  userPrompt = input_userInput.value;
+  const userPrompt = input_userInput.value;
   const typingDelay = typeWrite(userPrompt, div_userPrompt);
   disableUserInput();
   resetUserInput();
   hideCursor();
-  setTimeout(fetchChatResponse, typingDelay);
+  setTimeout(fetchChatResponse, typingDelay, userPrompt);
 }
 
 function disableUserInput() {
@@ -101,7 +99,7 @@ function hideCursor() {
   div_cursor.style.background = 'transparent';
 }
 
-function fetchChatResponse() {
+function fetchChatResponse(userPrompt) {
   fetch('/fetchChatResponse', {
     method: 'POST',
     headers: {
@@ -111,7 +109,7 @@ function fetchChatResponse() {
   })
   .then(response => response.json())
   .then(data => {
-    chatResponse = data.text;
+    const chatResponse = data.text;
     const typingDelay = typeWrite(chatResponse, div_chatResponse);
     setTimeout(allowInput, typingDelay);
   })
