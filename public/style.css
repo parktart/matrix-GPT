@@ -231,6 +231,7 @@ h1.opacity1,
 @media screen and (max-width: 470px) {
 
   .user-input-container {
+    margin-top: 0;
     margin-bottom: 10vh;
   }
 
