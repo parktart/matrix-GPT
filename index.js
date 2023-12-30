@@ -29,7 +29,7 @@ app.post('/fetchChatResponse', async (req, res) => {
   const userPrompt = req.body.userPrompt;
  
   const response = await openai.createCompletion({
-    model: "text-davinci-003",
+    model: "gpt-3.5-turbo-instruct",
     prompt: `Pretend you are Morpheus, the fictional character from The Matrix movie.
     Answer as if you are speaking to Neo, the fictional character from The Matrix movie.
     Responses should be concise if possible.
