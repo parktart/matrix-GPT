@@ -11,6 +11,7 @@ const div_footer = document.querySelector('.footer');
 const div_userInputContainer = document.querySelector('.user-input-container');
 const div_cursor = document.querySelector('.cursor');
 
+const sessionId = Date.now().toString();
 
 // DELAY with blank screen
 h1.classList.add('display-none');
@@ -105,7 +106,7 @@ function fetchChatResponse(userPrompt) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ userPrompt })
+    body: JSON.stringify({ userPrompt, sessionId })
   })
   .then(response => response.json())
   .then(data => {
@@ -115,6 +116,17 @@ function fetchChatResponse(userPrompt) {
   })
   .catch(error => console.error(error));
 }
+
+window.addEventListener('beforeunload', () => {
+  fetch('/clearSession', {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json' 
+    },
+    body: JSON.stringify({ sessionId })
+  });
+});
+
 
 function allowInput() {
   resizeInput.call(input_userInput);
@@ -153,9 +165,3 @@ function doSetTimeout(i, arr, delayInterval, container) {
     container.appendChild(span);
   }, i * delayInterval);
 }
-
-
-// track session tokens
-// track user tokens
-// track all-time tokens
-// display price for each

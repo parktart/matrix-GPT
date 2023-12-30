@@ -15,6 +15,8 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+const sessions = {};
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -26,11 +28,12 @@ app.get('/', (req, res) => {
 
 
 app.post('/fetchChatResponse', async (req, res) => {
-  const userPrompt = req.body.userPrompt;
- 
-  const response = await openai.createCompletion({
-    model: "gpt-3.5-turbo-instruct",
-    prompt: `Pretend you are Morpheus, the fictional character from The Matrix movie.
+  const { userPrompt, sessionId } = req.body;
+
+  // Generate session history or append to it
+  if (!sessions[sessionId]) {
+    sessions[sessionId] = 
+    `Pretend you are Morpheus, the fictional character from The Matrix movie.
     Answer as if you are speaking to Neo, the fictional character from The Matrix movie.
     Responses should be concise if possible.
     Neo: Who are you?
@@ -38,17 +41,38 @@ app.post('/fetchChatResponse', async (req, res) => {
     Neo: Why am I here?
     Morpheous: I imagine you feel a bit like alice, tumbling down the rabbit hole. You are here because you know something. What you know you can't explain but you feel it. It is this feeling that has brought you to me.
     Neo: What is the matrix?
-    Morpheous: The matrix is everywhere it is all around us, even now in this very room. You can see it when you look out your window. Or when you turn on your television. You can feel it. It is the world that has been pulled over your eyes to blind you from the truth.    
-    Neo: ${userPrompt}?
-    Morpheous:`,
+    Morpheous: The matrix is everywhere it is all around us, even now in this very room. You can see it when you look out your window. Or when you turn on your television. You can feel it. It is the world that has been pulled over your eyes to blind you from the truth.`;
+    
+    // Clear session after 15 minutes
+    setTimeout(() => { delete sessions[sessionId]; }, 900000);
+  }
+  sessions[sessionId] += `\nNeo: ${userPrompt}\nMorpheous:`;
+
+  const response = await openai.createCompletion({
+    model: "gpt-3.5-turbo-instruct",
+    prompt: sessions[sessionId],
     max_tokens: 100,
     temperature: 0.2,
   });
 
   if (response.data.choices[0].text) {
-    res.json({ text: response.data.choices[0].text });
+    const morpheousResponse = response.data.choices[0].text.trim();
+    sessions[sessionId] += morpheousResponse;
+    res.json({ text: morpheousResponse });
   }
-})
+});
+
+
+app.post('/clearSession', (req, res) => {
+  const { sessionId } = req.body;
+
+  if (sessions[sessionId]) {
+    delete sessions[sessionId];
+  }
+
+  res.json({ message: "Session cleared successfully" });
+});
+
 
 
 app.listen(port, () => {
