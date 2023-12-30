@@ -1,6 +1,4 @@
-const OpenAI = require('openai');
-const { Configuration, OpenAIApi } = OpenAI;
-
+const { Configuration, OpenAIApi } = require('openai');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -13,19 +11,17 @@ const configuration = new Configuration({
   organization: "org-6UEpBXTdNqSHr0axideMycn8",
   apiKey: process.env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
 
+const openai = new OpenAIApi(configuration);
 const sessions = {};
 
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
 
 app.post('/fetchChatResponse', async (req, res) => {
   const { userPrompt, sessionId } = req.body;
@@ -52,7 +48,7 @@ app.post('/fetchChatResponse', async (req, res) => {
     model: "gpt-3.5-turbo-instruct",
     prompt: sessions[sessionId],
     max_tokens: 100,
-    temperature: 0.2,
+    temperature: 0.8,
   });
 
   if (response.data.choices[0].text) {
@@ -65,18 +61,11 @@ app.post('/fetchChatResponse', async (req, res) => {
   }
 });
 
-
 app.post('/clearSession', (req, res) => {
   const { sessionId } = req.body;
-
-  if (sessions[sessionId]) {
-    delete sessions[sessionId];
-  }
-
+  delete sessions[sessionId];
   res.json({ message: "Session cleared successfully" });
 });
-
-
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}...`)
