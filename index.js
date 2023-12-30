@@ -58,7 +58,10 @@ app.post('/fetchChatResponse', async (req, res) => {
   if (response.data.choices[0].text) {
     const morpheousResponse = response.data.choices[0].text.trim();
     sessions[sessionId] += morpheousResponse;
-    res.json({ text: morpheousResponse });
+    res.json({
+      text: morpheousResponse,
+      usage: response.data.usage
+    });
   }
 });
 

@@ -10,6 +10,7 @@ const div_arena = document.querySelector('.arena');
 const div_footer = document.querySelector('.footer');
 const div_userInputContainer = document.querySelector('.user-input-container');
 const div_cursor = document.querySelector('.cursor');
+const div_tokenInfo = document.querySelector('.token-info');
 
 const sessionId = Date.now().toString();
 
@@ -100,6 +101,16 @@ function hideCursor() {
   div_cursor.classList.add('hidden');
 }
 
+function displayTokenInfo(usage) {
+  div_tokenInfo.innerHTML = 
+  `Session ID: ${sessionId}<br>
+  Prompt Tokens: ${usage.prompt_tokens}<br>
+  Completion Tokens: ${usage.completion_tokens}<br>
+  Total Tokens: ${usage.total_tokens}<br>
+  Max Total Tokens: 4,096`;
+  div_tokenInfo.classList.add('opacity1');
+}
+
 function fetchChatResponse(userPrompt) {
   fetch('/fetchChatResponse', {
     method: 'POST',
@@ -112,6 +123,7 @@ function fetchChatResponse(userPrompt) {
   .then(data => {
     const chatResponse = data.text;
     const typingDelay = typeWrite(chatResponse, div_chatResponse);
+    displayTokenInfo(data.usage);
     setTimeout(allowInput, typingDelay);
   })
   .catch(error => console.error(error));

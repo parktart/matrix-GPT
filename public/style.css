@@ -189,6 +189,9 @@ div.chat-response {
   }
 }
 
+.token-info {
+  align-self: start;
+}
 
 .footer {
   display: flex;
@@ -216,14 +219,16 @@ div.chat-response {
 
 h1,
 .user-input-container,
-.footer {
+.footer,
+.token-info {
   opacity: 0;
   transition: opacity 2s ease;
 }
 
 h1.opacity1,
 .user-input-container.opacity1,
-.footer.opacity1 {
+.footer.opacity1,
+.token-info.opacity1 {
   opacity: 1;
 }
 
