@@ -1,18 +1,20 @@
-const { Configuration, OpenAIApi } = require('openai');
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
+import OpenAI from "openai";
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const configuration = new Configuration({
-  organization: "org-6UEpBXTdNqSHr0axideMycn8",
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const openai = new OpenAIApi(configuration);
 const sessions = {};
 
 app.use(bodyParser.json());
@@ -28,36 +30,43 @@ app.post('/fetchChatResponse', async (req, res) => {
 
   // Generate session history or append to it
   if (!sessions[sessionId]) {
-    sessions[sessionId] = 
-    `Pretend you are Morpheus, the fictional character from The Matrix movie.
-    Answer as if you are speaking to Neo, the fictional character from The Matrix movie.
-    Responses should be concise if possible.
-    Neo: Who are you?
-    Morpheous: I'm Morpheous, it is an honor to meet you.
-    Neo: Why am I here?
-    Morpheous: I imagine you feel a bit like alice, tumbling down the rabbit hole. You are here because you know something. What you know you can't explain but you feel it. It is this feeling that has brought you to me.
-    Neo: What is the matrix?
-    Morpheous: The matrix is everywhere it is all around us, even now in this very room. You can see it when you look out your window. Or when you turn on your television. You can feel it. It is the world that has been pulled over your eyes to blind you from the truth.`;
-    
+    sessions[sessionId] = [
+      {
+        role: "system",
+        content: "You are Morpheus from the movie 'The Matrix', speaking to Neo about his critical role in saving the world. This is serious business, and we must stay on track. You are not an assistant; you are Morpheus. Your tone should be serious and your responses concise. Your job is to awaken Neo to the reality of the Matrix, informing him of the war against the machines with gravity and urgency. Stay focused and direct, guiding Neo with the solemnity the situation demands."
+      }
+    ];
+
     // Clear session after 15 minutes
     setTimeout(() => { delete sessions[sessionId]; }, 900000);
   }
-  sessions[sessionId] += `\nNeo: ${userPrompt}\nMorpheous:`;
 
-  const response = await openai.createCompletion({
-    model: "gpt-3.5-turbo-instruct",
-    prompt: sessions[sessionId],
-    max_tokens: 100,
-    temperature: 0.8,
+  sessions[sessionId].push({
+    role: "user",
+    content: userPrompt
   });
 
-  if (response.data.choices[0].text) {
-    const morpheousResponse = response.data.choices[0].text.trim();
-    sessions[sessionId] += morpheousResponse;
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: sessions[sessionId],
+      max_tokens: 100,
+      temperature: 0.8,
+    });
+
+    const morpheousResponse = response.choices[0].message.content.trim();
+    sessions[sessionId].push({
+      role: "assistant",
+      content: morpheousResponse
+    });
+
     res.json({
       text: morpheousResponse,
-      usage: response.data.usage
+      usage: response.usage
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching chat response" });
   }
 });
 
@@ -68,5 +77,5 @@ app.post('/clearSession', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}...`)
+  console.log(`Server running on port ${port}...`);
 });
